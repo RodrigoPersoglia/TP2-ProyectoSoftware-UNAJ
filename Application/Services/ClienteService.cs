@@ -1,5 +1,6 @@
 ﻿using AccessData;
 using Domain.EntitiesDTO;
+using Domain.Exceptions;
 using Domain.Mappers;
 
 namespace Application.Services
@@ -22,12 +23,17 @@ namespace Application.Services
 
         public Response AddCliente(ClienteDTO clienteDto)
         {
-            if (clienteDto != null)
+            try
             {
-                _repository.CreateCliente(Mapper.ClienteDtoToEntity(clienteDto));
-                return new Response(201, new RespuestasDTO("Cliente Creado correctamente"));
+                if (clienteDto != null)
+                {
+                    _repository.CreateCliente(Mapper.ClienteDtoToEntity(clienteDto));
+                    return new Response(201, new RespuestasDTO("Cliente Creado correctamente"));
+                }
+                else return new Response(400, new RespuestasDTO("Los datos recibidos por parámetro son incorrectos"));
             }
-            else return new Response(400, new RespuestasDTO("Los datos recibidos por parámetro son incorrectos"));
+            catch (ExisteException ex) { return new Response(400, new RespuestasDTO(ex.Message)); }
+
         }
 
         public Response GetCliente(string? nombre = null, string? apellido = null, string? dni = null)

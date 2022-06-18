@@ -1,5 +1,6 @@
 ﻿using AccesData;
 using Domain;
+using Domain.Exceptions;
 
 namespace AccessData
 {
@@ -18,6 +19,7 @@ namespace AccessData
 
         public void CreateCliente(Cliente cliente)
         {
+            if ((_context.Cliente.Where(c => c.DNI == cliente.DNI)).Count()>0) { throw new ExisteException("El dni ingresado ya se encuentra registrado");}
             _context.Cliente.Add(cliente);
             _context.SaveChanges();
         }
@@ -42,5 +44,6 @@ namespace AccessData
         }
 
     }
+
 
 }
