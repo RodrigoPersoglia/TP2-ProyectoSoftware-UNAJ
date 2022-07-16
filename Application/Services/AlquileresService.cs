@@ -59,7 +59,7 @@ namespace Application.Services
                 }
                 else return new Response(400, new RespuestasDTO("Uno de los parámetros fechaAlquiler o fechaReserva debe ser una fecha válida"));
             }
-            else return new Response(400, new RespuestasDTO("Eror en los datos ingresados. El cliente o el libro no existen"));
+            else return new Response(400, new RespuestasDTO("Error en los datos ingresados. El cliente o el libro no existen"));
         }
 
 
@@ -73,7 +73,7 @@ namespace Application.Services
                     _repository.UpdateReserva(reserva.clienteDNI, reserva.isbn);
                     return new Response(201, new RespuestasDTO("Alquiler registrado correctamente"));
                 }
-                else return new Response(400, new RespuestasDTO("El cliente no posee reservas del libro ingresado"));
+                else return new Response(404, new RespuestasDTO("El cliente no posee reservas del libro ingresado"));
 
             }
             else return new Response(400, new RespuestasDTO("Error en los datos ingresados. El cliente o el libro no existen"));
@@ -97,7 +97,7 @@ namespace Application.Services
                 if(estado>0 && estado < 3) { return new Response(200, _repository.GetLibrosReservadosAlquilados(dni,estado)); }
                 return new Response(400, new RespuestasDTO("El estado ingresado no es valido. Los estados válidos son 1) reservas , 2) alquileres"));
             }
-            else return new Response(400, new RespuestasDTO("El cliente ingresado no existe"));
+            else return new Response(404, new RespuestasDTO("El cliente ingresado no existe"));
         }
 
     }
